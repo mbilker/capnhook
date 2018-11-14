@@ -14,6 +14,7 @@ struct pe_iat_entry {
     void **ppointer;
 };
 
+const IMAGE_NT_HEADERS *pe_get_nt_header(HMODULE pe);
 const pe_iid_t *pe_iid_get_first(HMODULE pe);
 const char *pe_iid_get_name(HMODULE pe, const pe_iid_t *iid);
 const pe_iid_t *pe_iid_get_next(HMODULE pe, const pe_iid_t *iid);

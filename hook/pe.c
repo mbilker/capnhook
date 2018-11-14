@@ -11,7 +11,6 @@
 
 static void *pe_offset(void *ptr, size_t off);
 static const void *pe_offsetc(const void *ptr, size_t off);
-static const IMAGE_NT_HEADERS *pe_get_nt_header(HMODULE pe);
 
 static void *pe_offset(void *ptr, size_t off)
 {
@@ -39,7 +38,7 @@ static const void *pe_offsetc(const void *ptr, size_t off)
     return base + off;
 }
 
-static const IMAGE_NT_HEADERS *pe_get_nt_header(HMODULE pe)
+const IMAGE_NT_HEADERS *pe_get_nt_header(HMODULE pe)
 {
     const IMAGE_DOS_HEADER *dh;
     const IMAGE_NT_HEADERS *nth;
