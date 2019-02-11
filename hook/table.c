@@ -97,7 +97,9 @@ static void hook_table_apply_to_iid(
                     *sym->link = *iate.ppointer;
                 }
 
-                pe_patch(iate.ppointer, &sym->patch, sizeof(sym->patch));
+                if (sym->patch != NULL) {
+                    pe_patch(iate.ppointer, &sym->patch, sizeof(sym->patch));
+                }
             }
         }
     }
