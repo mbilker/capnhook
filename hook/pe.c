@@ -9,6 +9,8 @@
 
 #include "hook/pe.h"
 
+static VirtualProtect_t my_VirtualProtect = VirtualProtect;
+
 static void *pe_offset(void *ptr, size_t off);
 static const void *pe_offsetc(const void *ptr, size_t off);
 
@@ -36,6 +38,11 @@ static const void *pe_offsetc(const void *ptr, size_t off)
     base = ptr;
 
     return base + off;
+}
+
+void pe_set_virtual_protect(VirtualProtect_t vp)
+{
+    my_VirtualProtect = vp;
 }
 
 const IMAGE_NT_HEADERS *pe_get_nt_header(HMODULE pe)
@@ -195,7 +202,7 @@ HRESULT pe_patch(void *dest, const void *src, size_t nbytes)
     assert(dest != NULL);
     assert(src != NULL);
 
-    ok = VirtualProtect(
+    ok = my_VirtualProtect(
             dest,
             nbytes,
             PAGE_EXECUTE_READWRITE,
@@ -207,7 +214,7 @@ HRESULT pe_patch(void *dest, const void *src, size_t nbytes)
 
     memcpy(dest, src, nbytes);
 
-    ok = VirtualProtect(
+    ok = my_VirtualProtect(
             dest,
             nbytes,
             old_protect,

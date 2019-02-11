@@ -8,11 +8,15 @@
 
 typedef IMAGE_IMPORT_DESCRIPTOR pe_iid_t;
 
+typedef BOOL (WINAPI *VirtualProtect_t)(LPVOID, SIZE_T, DWORD, PDWORD);
+
 struct pe_iat_entry {
     const char *name;
     uint16_t ordinal;
     void **ppointer;
 };
+
+void pe_set_virtual_protect(VirtualProtect_t vp);
 
 const IMAGE_NT_HEADERS *pe_get_nt_header(HMODULE pe);
 const pe_iid_t *pe_iid_get_first(HMODULE pe);
